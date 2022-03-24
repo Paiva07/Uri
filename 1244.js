@@ -1,23 +1,19 @@
 var input = require('fs').readFileSync('1244', 'utf8');
 var lines = input.split('\r\n');
 
-var info = lines.shift();
+let dados = [];
+for (i = 0; i < lines.length; i++) {
+  dados.push(lines[i]);
+  let info = dados.shift();
+  let newDados = info.split(' ');
 
-var dados = info.split(' ');
-console.log(dados);
-var dadosAtualizados = [];
+  let imp = newDados.sort(compar);
+  console.log(imp.toString());
+  dados.pop(lines[i]);
 
-for (i = 0; i < dados.length; i++) {
-  let dadosAtua = dados[i];
-  let dadosAnt = dados[i - 1];
-
-  if (dadosAtualizados.length == 0) {
-    dadosAtualizados.push(dadosAtua);
-  } else if (dadosAtua.length > dadosAnt.length) {
-    dadosAtualizados.unshift(dadosAtua);
-  } else {
-    dadosAtualizados.push(dadosAtua);
+  function compar(a, b) {
+    if (a.length > b.length) return -1;
+    if (a.length < b.length) return 1;
+    return 0;
   }
 }
-
-console.log(dadosAtualizados);
