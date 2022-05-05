@@ -1,24 +1,32 @@
 var input = require('fs').readFileSync('1068', 'utf8');
 var lines = input.split('\n');
-var info = lines.shift();
+var expression = lines.shift();
 
-let n = 0;
-let open = false;
+let countOpenParentheses = 0;
+let openIncorretParentheses = false;
 let caracter;
 
-for (let i = 0; i < info.length; i++) {
-  caracter = info.charAt(i);
+const validationParanthes = (caracter) => {
   if (caracter == '(') {
-    n++;
-  } else if (caracter == ')') {
-    if (n == 0) {
-      open = true;
-    }
-    n--;
+    countOpenParentheses++;
   }
+  if (caracter == ')') {
+    if (countOpenParentheses == 0) {
+      openIncorretParentheses = true;
+    }
+    countOpenParentheses--;
+  }
+};
+const validationExpression = () => {
+  if (openIncorretParentheses || countOpenParentheses != 0) {
+    console.log('incorrect');
+  } else {
+    console.log('correct');
+  }
+};
+
+for (let i = 0; i < expression.length; i++) {
+  caracter = expression.charAt(i);
+  validationParanthes(caracter);
 }
-if (open || n != 0) {
-  console.log('incorrect');
-} else {
-  console.log('correct');
-}
+validationExpression();
